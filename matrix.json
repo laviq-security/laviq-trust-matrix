@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0-alpha",
+  "metadata": {
+    "standard_compliance": ["NSA CNSA 2.0", "CCCS ITSM.40.001", "NIST PQC"],
+    "last_updated": "2026-03-08"
+  },
+  "cryptographic_rules": [
+    {
+      "algorithm": "RSA",
+      "runtime_evidence": "key_size_bits",
+      "thresholds": {
+        "critical": "< 2048",
+        "warning": ">= 2048 && < 3072",
+        "compliant_classical": ">= 3072"
+      },
+      "pqc_status": "VULNERABLE",
+      "remediation": "Update to RSA-3072 for classical compliance; plan migration to ML-KEM."
+    },
+    {
+      "algorithm": "TLS",
+      "runtime_evidence": "negotiated_version",
+      "thresholds": {
+        "critical": ["TLS 1.0", "TLS 1.1"],
+        "warning": ["TLS 1.2"],
+        "compliant": ["TLS 1.3"]
+      },
+      "pqc_status": "HYBRID_REQUIRED",
+      "remediation": "Enforce TLS 1.3 and evaluate PQ-hybrid key exchange."
+    }
+  ],
+  "scoring_weights": {
+    "active_runtime_usage": 1.0,
+    "dormant_library_present": 0.2,
+    "network_exposed": 1.5
+  }
+}
